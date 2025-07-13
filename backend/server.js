@@ -11,7 +11,7 @@ const connectDB = require('./config/database');
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/users');
 const postRoutes = require('./routes/posts');
-
+const loginAttemptRoutes = require("./routes/loginAttempts");
 const app = express();
 
 connectDB();
@@ -62,7 +62,7 @@ app.use(express.static(path.join(__dirname, '../frontend')));
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/posts', postRoutes);
-
+app.use("/api/login-attempts", loginAttemptRoutes);
 app.get('/api/health', (req, res) => {
   res.json({
     success: true,

