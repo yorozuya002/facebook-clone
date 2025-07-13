@@ -1,0 +1,377 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+body {
+    background: #f0f2f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+}
+
+.facebook-page {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 50px;
+}
+
+.text {
+    flex: 1;
+    max-width: 500px;
+}
+
+.text h1 {
+    color: #1877f2;
+    font-size: 4rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    line-height: 1;
+}
+
+.text p {
+    font-size: 1.75rem;
+    color: #1c1e21;
+    line-height: 1.34;
+}
+
+.form-container {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+.login-form input {
+    width: 100%;
+    height: 55px;
+    border: 1px solid #dddfe2;
+    border-radius: 6px;
+    margin-bottom: 12px;
+    padding: 0 16px;
+    font-size: 17px;
+    background: #fff;
+}
+
+.login-form input:focus {
+    border-color: #1877f2;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(24, 119, 242, 0.2);
+}
+
+.login-btn {
+    width: 100%;
+    height: 48px;
+    background: #1877f2;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 12px;
+    transition: background-color 0.2s;
+}
+
+.login-btn:hover {
+    background: #166fe5;
+}
+
+.login-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+.forgot-password {
+    display: block;
+    text-align: center;
+    color: #1877f2;
+    text-decoration: none;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid #dadde1;
+    margin: 20px 0;
+}
+
+.create-account-btn {
+    display: block;
+    margin: 0 auto;
+    background: #42b883;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-size: 17px;
+    font-weight: bold;
+    padding: 12px 20px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.create-account-btn:hover {
+    background: #369870;
+}
+
+.error-message {
+    background: #ffebee;
+    color: #c62828;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 12px;
+    font-size: 14px;
+    display: none;
+}
+
+.error-message.show {
+    display: block;
+}
+
+.success-message {
+    background: #e8f5e8;
+    color: #2e7d32;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 12px;
+    font-size: 14px;
+    display: none;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 10000;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.modal-content {
+    background-color: white;
+    margin: 5% auto;
+    padding: 0;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 432px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 20px 10px;
+    border-bottom: 1px solid #dadde1;
+}
+
+.modal-header h2 {
+    color: #1c1e21;
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.close {
+    color: #8a8d91;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.close:hover {
+    color: #1c1e21;
+}
+
+.modal-content p {
+    padding: 0 20px 20px;
+    color: #606770;
+    font-size: 15px;
+}
+
+.modal-content form {
+    padding: 0 20px 20px;
+}
+
+.name-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.name-row input {
+    flex: 1;
+    height: 40px;
+    border: 1px solid #dddfe2;
+    border-radius: 5px;
+    padding: 0 12px;
+    font-size: 15px;
+    background: #f5f6f7;
+}
+
+.modal-content input[type="email"],
+.modal-content input[type="password"] {
+    width: 100%;
+    height: 40px;
+    border: 1px solid #dddfe2;
+    border-radius: 5px;
+    margin-bottom: 12px;
+    padding: 0 12px;
+    font-size: 15px;
+    background: #f5f6f7;
+}
+
+.modal-content label {
+    display: block;
+    color: #606770;
+    font-size: 12px;
+    margin-bottom: 5px;
+    margin-top: 12px;
+}
+
+.birthday-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.birthday-row select {
+    flex: 1;
+    height: 36px;
+    border: 1px solid #dddfe2;
+    border-radius: 5px;
+    padding: 0 8px;
+    font-size: 15px;
+    background: #f5f6f7;
+}
+
+.gender-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.gender-option {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    border: 1px solid #dddfe2;
+    border-radius: 5px;
+    font-size: 15px;
+    color: #1c1e21;
+    cursor: pointer;
+}
+
+.gender-option input {
+    margin: 0;
+}
+
+.signup-btn {
+    background: #00a400;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 8px 60px;
+    cursor: pointer;
+    margin: 0 auto;
+    display: block;
+}
+
+.signup-btn:hover {
+    background: #42b883;
+}
+
+.signup-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+    .facebook-page {
+        flex-direction: column;
+        gap: 30px;
+        text-align: center;
+    }
+    
+    .text h1 {
+        font-size: 3rem;
+    }
+    
+    .text p {
+        font-size: 1.5rem;
+    }
+    
+    .form-container {
+        max-width: 100%;
+    }
+    
+    .modal-content {
+        margin: 10% auto;
+        width: 95%;
+    }
+    
+    .name-row {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .gender-row {
+        flex-direction: column;
+        gap: 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+    
+    .text h1 {
+        font-size: 2.5rem;
+    }
+    
+    .text p {
+        font-size: 1.25rem;
+    }
+    
+    .form-container {
+        padding: 15px;
+    }
+    
+    .modal-content {
+        margin: 5% auto;
+    }
+}

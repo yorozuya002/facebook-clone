@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook Dashboard</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+        }
+        .dashboard {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        .logout-btn {
+            background: #1877f2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .logout-btn:hover {
+            background: #166fe5;
+        }
+        .welcome {
+            color: #1c1e21;
+        }
+        .user-info {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <div class="header">
+            <h1 class="welcome">Welcome to Facebook Clone!</h1>
+            <button class="logout-btn" id="logoutBtn">Logout</button>
+        </div>
+        
+        <div class="user-info" id="userInfo">
+            <h3>Your Profile</h3>
+            <p>Loading user information...</p>
+        </div>
+        
+        <div>
+            <h3>Dashboard Features</h3>
+            <p>Dashboard functionality coming soon...</p>
+            <ul>
+                <li>News Feed</li>
+                <li>Friends List</li>
+                <li>Messages</li>
+                <li>Profile Management</li>
+                <li>Posts and Photos</li>
+            </ul>
+        </div>
+    </div>
+    
+    <script src="dashboard.js"></script>
+</body>
+</html>
