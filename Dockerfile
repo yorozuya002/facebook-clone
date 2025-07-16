@@ -11,8 +11,11 @@ RUN cd backend && npm install
 # Copy all source code
 COPY . .
 
+# Set working directory to backend
+WORKDIR /app/backend
+
 # Expose port
 EXPOSE 3000
 
-# Start the application
-CMD ["sh", "-c", "cd backend && npm start"]
+# Start the application (now we're already in backend directory)
+CMD ["npm", "start"]
